@@ -26,9 +26,9 @@ class Automata {
     void on();
     void off();
     void coin(int amount);
-    std::string getMenu() const;          
-    std::string getState() const;         
-    void choice(int index);               
+    std::string getMenu() const;
+    std::string getState() const;
+    void choice(int index);
     bool check();
     void cancel();
     void cook();

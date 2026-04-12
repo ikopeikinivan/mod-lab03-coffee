@@ -38,8 +38,8 @@ void test_cancel() {
     a.cancel();
     assert(a.getState() == "WAIT (Ожидание)");
     a.choice(0);
-    assert(a.getState() == "WAIT (Ожидание)"); 
-    a.cancel(); 
+    assert(a.getState() == "WAIT (Ожидание)");
+    a.cancel();
     assert(a.getState() == "WAIT (Ожидание)");
     std::cout << "test_cancel passed\n";
 }
@@ -144,21 +144,4 @@ void test_state_transitions() {
     a.cook();
     assert(a.getState() == "WAIT (Ожидание)");
     std::cout << "test_state_transitions passed\n";
-}
-
-int main() {
-    std::cout << "Running tests...\n";
-    test_on_off();
-    test_coin();
-    test_cancel();
-    test_choice_invalid();
-    test_insufficient_funds();
-    test_cook_without_check();
-    test_finish_direct();
-    test_multiple_coins();
-    test_off_during_accept();
-    test_getMenu();
-    test_state_transitions();
-    std::cout << "All tests passed!\n";
-    return 0;
 }

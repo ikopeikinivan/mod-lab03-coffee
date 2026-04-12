@@ -4,7 +4,7 @@
 #include <thread>
 #include <chrono>
 #include <sstream>
-
+#include <string>
 Automata::Automata() : cash(0), state(States::OFF), selected_item(-1) {
     menu = { "Чай", "Кофе", "Молоко", "Какао", "Горячий шоколад" };
     prices = { 30, 50, 40, 45, 60 };

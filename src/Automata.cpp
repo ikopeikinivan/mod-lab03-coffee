@@ -34,7 +34,6 @@ void Automata::off() {
 
 void Automata::coin(int amount) {
     if (state == States::WAIT) {
-        // Первая монета переводит из WAIT в ACCEPT
         state = States::ACCEPT;
         cash += amount;
         std::cout << "Внесено " << amount << " руб. Текущая сумма: "
@@ -85,6 +84,10 @@ void Automata::choice(int index) {
 }
 
 bool Automata::check() {
+    if (state == States::ACCEPT && selected_item != -1) {
+        state = States::CHECK;
+    }
+
     if (state == States::CHECK) {
         if (selected_item != -1) {
             int price = prices[selected_item];
@@ -105,7 +108,8 @@ bool Automata::check() {
             return false;
         }
     } else {
-        std::cout << "Проверка возможна только в состоянии CHECK" << std::endl;
+        std::cout << "Проверка возможна только в состоянии CHECK или ACCEPT (с выбранным напитком)"
+                  << std::endl;
         return false;
     }
 }

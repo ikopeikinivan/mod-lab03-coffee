@@ -108,8 +108,8 @@ bool Automata::check() {
             return false;
         }
     } else {
-        std::cout << "Проверка возможна только в состоянии CHECK или ACCEPT (с выбранным напитком)"
-                  << std::endl;
+        std::cout << "Проверка возможна только в состоянии CHECK "
+                  << "или ACCEPT (с выбранным напитком)" << std::endl;
         return false;
     }
 }

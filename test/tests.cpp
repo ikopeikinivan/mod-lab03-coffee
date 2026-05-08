@@ -123,7 +123,7 @@ TEST(AutomataTest, state_transitions) {
     EXPECT_EQ(a.getState(), "OFF (Выключен)");
     a.on();
     EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
-    a.coin(10);
+    a.coin(50);   // ← изменено с 10 на 50, чтобы хватило на чай
     EXPECT_EQ(a.getState(), "ACCEPT (Приём денег)");
     a.choice(0);
     EXPECT_EQ(a.getState(), "CHECK (Проверка средств)");

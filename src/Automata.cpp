@@ -96,6 +96,7 @@ bool Automata::check() {
             } else {
                 std::cout << "Недостаточно средств. Не хватает "
                           << (price - cash) << " руб." << std::endl;
+                state = States::ACCEPT;
                 return false;
             }
         } else {

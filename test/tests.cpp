@@ -2,100 +2,91 @@
 
 #include <gtest/gtest.h>
 #include "Automata.h"
-#include <iostream>
-#include <cassert>
 #include <string>
 
-void test_on_off() {
+TEST(AutomataTest, on_off) {
     Automata a;
-    assert(a.getState() == "OFF (Выключен)");
+    EXPECT_EQ(a.getState(), "OFF (Выключен)");
     a.on();
-    assert(a.getState() == "WAIT (Ожидание)");
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
     a.off();
-    assert(a.getState() == "OFF (Выключен)");
-    std::cout << "test_on_off passed\n";
+    EXPECT_EQ(a.getState(), "OFF (Выключен)");
 }
 
-void test_coin() {
+TEST(AutomataTest, coin) {
     Automata a;
     a.on();
     a.coin(50);
-    assert(a.getState() == "ACCEPT (Приём денег)");
+    EXPECT_EQ(a.getState(), "ACCEPT (Приём денег)");
     a.coin(30);
     a.choice(0);
-    assert(a.getState() == "CHECK (Проверка средств)");
+    EXPECT_EQ(a.getState(), "CHECK (Проверка средств)");
     a.check();
-    assert(a.getState() == "COOK (Приготовление)");
+    EXPECT_EQ(a.getState(), "COOK (Приготовление)");
     a.cook();
-    assert(a.getState() == "WAIT (Ожидание)");
-    std::cout << "test_coin passed\n";
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
 }
 
-void test_cancel() {
+TEST(AutomataTest, cancel) {
     Automata a;
     a.on();
     a.coin(100);
     a.cancel();
-    assert(a.getState() == "WAIT (Ожидание)");
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
     a.choice(0);
-    assert(a.getState() == "WAIT (Ожидание)");
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
     a.cancel();
-    assert(a.getState() == "WAIT (Ожидание)");
-    std::cout << "test_cancel passed\n";
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
 }
 
-void test_choice_invalid() {
+TEST(AutomataTest, choice_invalid) {
     Automata a;
     a.on();
     a.coin(50);
     a.choice(10);
-    assert(a.getState() == "ACCEPT (Приём денег)");
+    EXPECT_EQ(a.getState(), "ACCEPT (Приём денег)");
     a.choice(-1);
-    assert(a.getState() == "ACCEPT (Приём денег)");
-    std::cout << "test_choice_invalid passed\n";
+    EXPECT_EQ(a.getState(), "ACCEPT (Приём денег)");
 }
 
-void test_insufficient_funds() {
+TEST(AutomataTest, insufficient_funds) {
     Automata a;
     a.on();
     a.coin(20);
     a.choice(0);
-    assert(a.getState() == "CHECK (Проверка средств)");
+    EXPECT_EQ(a.getState(), "CHECK (Проверка средств)");
     bool ok = a.check();
-    assert(!ok);
-    assert(a.getState() == "ACCEPT (Приём денег)");
+    EXPECT_FALSE(ok);
+    EXPECT_EQ(a.getState(), "ACCEPT (Приём денег)");
     a.coin(10);
     a.check();
-    assert(a.getState() == "COOK (Приготовление)");
+    EXPECT_EQ(a.getState(), "COOK (Приготовление)");
     a.cook();
-    assert(a.getState() == "WAIT (Ожидание)");
-    std::cout << "test_insufficient_funds passed\n";
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
 }
 
-void test_cook_without_check() {
+TEST(AutomataTest, cook_without_check) {
     Automata a;
     a.on();
     a.coin(50);
     a.choice(0);
     a.cook();
-    assert(a.getState() == "CHECK (Проверка средств)");
-    std::cout << "test_cook_without_check passed\n";
+    EXPECT_EQ(a.getState(), "CHECK (Проверка средств)");
 }
 
-void test_finish_direct() {
+TEST(AutomataTest, finish_direct) {
     Automata a;
     a.on();
     a.coin(50);
     a.choice(0);
     a.check();
     a.cook();
-    assert(a.getState() == "WAIT (Ожидание)");
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
     a.finish();
-    assert(a.getState() == "WAIT (Ожидание)");
-    std::cout << "test_finish_direct passed\n";
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
 }
 
-void test_multiple_coins() {
+TEST(AutomataTest, multiple_coins) {
     Automata a;
     a.on();
     a.coin(10);
@@ -103,45 +94,41 @@ void test_multiple_coins() {
     a.coin(5);
     a.choice(1);
     a.check();
-    assert(a.getState() == "ACCEPT (Приём денег)");
+    EXPECT_EQ(a.getState(), "ACCEPT (Приём денег)");
     a.coin(15);
     a.check();
-    assert(a.getState() == "COOK (Приготовление)");
+    EXPECT_EQ(a.getState(), "COOK (Приготовление)");
     a.cook();
-    assert(a.getState() == "WAIT (Ожидание)");
-    std::cout << "test_multiple_coins passed\n";
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
 }
 
-void test_off_during_accept() {
+TEST(AutomataTest, off_during_accept) {
     Automata a;
     a.on();
     a.coin(100);
     a.off();
-    assert(a.getState() == "OFF (Выключен)");
+    EXPECT_EQ(a.getState(), "OFF (Выключен)");
     a.choice(0);
-    assert(a.getState() == "OFF (Выключен)");
-    std::cout << "test_off_during_accept passed\n";
+    EXPECT_EQ(a.getState(), "OFF (Выключен)");
 }
 
-void test_getMenu() {
+TEST(AutomataTest, getMenu) {
     Automata a;
     std::string menu = a.getMenu();
-    assert(!menu.empty());
-    std::cout << "test_getMenu passed\n";
+    EXPECT_FALSE(menu.empty());
 }
 
-void test_state_transitions() {
+TEST(AutomataTest, state_transitions) {
     Automata a;
-    assert(a.getState() == "OFF (Выключен)");
+    EXPECT_EQ(a.getState(), "OFF (Выключен)");
     a.on();
-    assert(a.getState() == "WAIT (Ожидание)");
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
     a.coin(10);
-    assert(a.getState() == "ACCEPT (Приём денег)");
+    EXPECT_EQ(a.getState(), "ACCEPT (Приём денег)");
     a.choice(0);
-    assert(a.getState() == "CHECK (Проверка средств)");
+    EXPECT_EQ(a.getState(), "CHECK (Проверка средств)");
     a.check();
-    assert(a.getState() == "COOK (Приготовление)");
+    EXPECT_EQ(a.getState(), "COOK (Приготовление)");
     a.cook();
-    assert(a.getState() == "WAIT (Ожидание)");
-    std::cout << "test_state_transitions passed\n";
+    EXPECT_EQ(a.getState(), "WAIT (Ожидание)");
 }
